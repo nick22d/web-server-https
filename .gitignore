@@ -1,0 +1,12 @@
+# Vagrant environment
+.vagrant/
+
+# Virtual machine boxes
+*.box
+
+# Certificate materials
+*.crt
+*.key
+
+# Logs
+*.log

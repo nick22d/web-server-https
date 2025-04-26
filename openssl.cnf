@@ -1,0 +1,30 @@
+  [req]
+  distinguished_name = req_distinguished_name
+  x509_extensions = v3_req
+  prompt = no
+  
+  [req_distinguished_name]
+  C = US
+  ST = Test
+  L = Local
+  O = Dev
+  CN = 192.168.56.10
+  
+  [v3_req]
+  subjectAltName = @alt_names
+  
+  [alt_names]
+  IP.1 = 192.168.56.10
+  EOF
+  
+        # Generate self-signed cert in /vagrant
+        openssl req -x509 -nodes -days 365           -newkey rsa:2048           -keyout /vagrant/selfsigned.key           -out /vagrant/selfsigned.crt           -config /vagrant/openssl.cnf           -extensions v3_req
+  
+        # Copy the certs inside Nginx SSL folder
+        cp /vagrant/selfsigned.key /etc/nginx/ssl/
+        cp /vagrant/selfsigned.crt /etc/nginx/ssl/
+  
+        # Replace nginx.conf
+        cp /vagrant/nginx.conf /etc/nginx/nginx.conf
+  
+        systemctl restart nginx
